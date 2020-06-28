@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html ng-app="angularjs-starter">
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="//code.angularjs.org/1.1.1/angular.js"></script>
+        <script src="scripts.js"></script>
+
+
+        <style type="text/css">
+            nav {
+                background-color: #333;
+                margin: 5px;
+                padding: 0;
+            }
+
+            textarea, #input_label{
+                margin-left: 30px;
+                margin-top: 10px
+            }
+
+
+            @media (min-width: 992px){
+                .navbar li {
+                    margin-left : 5em;
+                    margin-right : 5em;
+                }
+            }
+        </style>
+
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tests.html">Tests</a>
+                </li>
+            </ul>
+        </nav>
+    </head>
+    <body ng-controller="MainCtrl">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 id="input_label">Input:</h1>
+                <textarea id="text_field" name="text_field" rows="10" cols="60" ng-model='input'></textarea>
+            </div>
+            <div class="col-sm-6">
+                <h1>Output:</h1>
+                <p id="output">Is goal reachable: {{goalReachable}}<br>
+                    {{steps}}<br>{{path}}
+                </p>
+            </div>
+        </div>
+
+        </p>
+        <script type="text/javascript">
+
+            var app = angular.module('angularjs-starter', []);
+
+            app.controller('MainCtrl', function($scope,$timeout) {
+                $scope.input = '1 3 6 1 0 9';
+                $scope.$watch('input', function() {
+                    let invalidChars =  /[^ 0-9]/gi;
+                    if(invalidChars.test($scope.input)) {
+                        $scope.input = $scope.input.replace(invalidChars,"");
+                    }
+                    if(!invalidChars.test($scope.input)) {
+                        let input = $scope.input.split(" ");
+                        let numbers = [];
+                        for(let i = 0; i <= input.length; i++){
+                            if(input[i] !== undefined && input[i].length !== 0){
+                                numbers.push(parseInt(input[i]));
+                            }
+                        }
+                        let output = calculatePath(numbers);
+                        if(output[0] === -1) {
+                            $scope.goalReachable = "No";
+                            $scope.steps = "";
+                            $scope.path = "";
+
+                        } else {
+                            $scope.goalReachable = "Yes";
+                            $scope.steps = "Minimal required steps: " + output.length;
+                            let path = "";
+                            for (let element of output) {
+                                path = path + element + "->";
+                            }
+                            if(path !== "")
+                                $scope.path = "Most efficient path: " + path.slice(0,-2);
+                        }
+
+
+                        $scope.outputText = calculatePath(numbers);
+
+
+                    }
+
+                });
+            });
+
+        </script>
+    </body>
+    </html>
+</html>

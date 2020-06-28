@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.10.0.css">
+    <script src="https://code.jquery.com/qunit/qunit-2.10.0.js"></script>
+    <script src="scripts.js"></script>
+
+    <style type="text/css">
+        nav {
+            background-color: #333;
+            margin: 5px;
+            padding: 0;
+        }
+
+        textarea, button{
+            margin-left: 30px;
+            margin-top: 10px
+        }
+
+
+        @media (min-width: 992px){
+            .navbar li {
+                margin-left : 5em;
+                margin-right : 5em;
+            }
+        }
+    </style>
+
+    <nav class="navbar navbar-expand-sm navbar-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Main</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="tests.html">Tests</a>
+            </li>
+        </ul>
+    </nav>
+</head>
+<body>
+    <div id="qunit"></div>
+
+    <script type="text/javascript">
+
+        QUnit.test("Unit Tests", function( assert ) {
+          let arr = [ 3, 2, 0, 3, 0, 2, 0 ];
+          assert.equal(stepCounter(arr, arr.length, arr.length), 2);
+          assert.deepEqual(calculatePath(arr), [3,3]);
+
+          arr = [ 1, 3, 6, 3, 2, 3, 6, 8, 9, 5 ];
+          assert.equal(stepCounter(arr, arr.length, arr.length), 4);
+          assert.deepEqual(calculatePath(arr), [1,3,6,6]);
+
+          arr = [ 1, 2, 0, 3, 0, 2, 0 ];
+          assert.equal(stepCounter(arr, arr.length, arr.length), 3);
+          assert.deepEqual(calculatePath(arr), [1,2,3]);
+
+          arr = [1, 3, 6, 1, 0, 9];
+          assert.equal(stepCounter(arr, arr.length, arr.length), 3);
+          assert.deepEqual(calculatePath(arr), [1,3,6]);
+
+          arr = [1, 3, 0, 1, 0, 9];
+          assert.equal(stepCounter(arr, arr.length, arr.length) > arr.length, true);
+          assert.deepEqual(calculatePath(arr), [-1]);
+
+         });
+
+    </script>
+</body>
+</html>
